@@ -66,6 +66,11 @@ def main(_):
     _, err = sess.run([train_step, cross_entropy], feed_dict={x: batch_xs, y_: batch_ys})
     print(err)
 
+  # Save the variables to disk
+  saver = tf.train.Saver()
+  save_path = saver.save(sess, "/tmp/mnist_softmax_model.ckpt")
+  print("Model saved in file %s" % save_path)
+  
   # Test trained model
   correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
   accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
